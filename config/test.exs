@@ -8,12 +8,3 @@ config :stranger, Stranger.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :stranger, Stranger.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "stranger_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
