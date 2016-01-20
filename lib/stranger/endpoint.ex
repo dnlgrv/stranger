@@ -1,7 +1,7 @@
 defmodule Stranger.Endpoint do
   use Phoenix.Endpoint, otp_app: :stranger
 
-  socket "/socket", Stranger.UserSocket
+  socket "/socket", Stranger.StrangerSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

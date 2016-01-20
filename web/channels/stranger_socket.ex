@@ -1,5 +1,7 @@
-defmodule Stranger.UserSocket do
+defmodule Stranger.StrangerSocket do
   use Phoenix.Socket
+
+  @id_length 64
 
   ## Channels
   # channel "rooms:*", Stranger.RoomChannel
@@ -20,7 +22,7 @@ defmodule Stranger.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :stranger_id, random_id())}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -33,5 +35,13 @@ defmodule Stranger.UserSocket do
   #     Stranger.Endpoint.broadcast("users_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket) do
+    "stranger_socket:#{socket.assigns.stranger_id}"
+  end
+
+  defp random_id do
+    @id_length
+    |> :crypto.strong_rand_bytes()
+    |> Base.encode64()
+  end
 end
