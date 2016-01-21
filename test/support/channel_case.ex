@@ -10,4 +10,13 @@ defmodule Stranger.ChannelCase do
       @endpoint Stranger.Endpoint
     end
   end
+
+  setup do
+    on_exit fn ->
+      # Clean up the pool after each test run
+      Enum.each(Stranger.Pool.all(), &Stranger.Pool.remove/1)
+    end
+
+    :ok
+  end
 end
