@@ -4,9 +4,9 @@ defmodule Stranger.StrangerSocket do
   @id_length 64
 
   ## Channels
-  # channel "rooms:*", Stranger.RoomChannel
   channel "id", Stranger.IDChannel
   channel "strangers:*", Stranger.StrangerChannel
+  channel "rooms:*", Stranger.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
