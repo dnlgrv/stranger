@@ -6,6 +6,7 @@ defmodule Stranger.StrangerSocket do
   ## Channels
   # channel "rooms:*", Stranger.RoomChannel
   channel "id", Stranger.IDChannel
+  channel "strangers:*", Stranger.StrangerChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
