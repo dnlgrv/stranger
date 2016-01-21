@@ -19,7 +19,15 @@ defmodule Stranger.RoomChannel do
     {:noreply, socket}
   end
 
-  def terminate(_msg, _socket) do
-    # Close the room and notify the clients to leave
+  def terminate(_msg, socket) do
+    {room_name, id1, id2} = Room.by_stranger(socket.assigns.stranger_id)
+    Enum.each([id1, id2], &(leave_room(&1, room_name)))
+    Room.delete(room_name)
+  end
+
+  defp leave_room(id, room_name) do
+    Stranger.Endpoint.broadcast "strangers:#{id}",
+                                "leave_room",
+                                %{topic: "rooms:#{room_name}"}
   end
 end
