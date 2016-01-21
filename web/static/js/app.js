@@ -1,21 +1,56 @@
-// Brunch automatically concatenates all files in your
-// watched paths. Those paths can be configured at
-// config.paths.watched in "brunch-config.js".
-//
-// However, those files will only be executed if
-// explicitly imported. The only exception are files
-// in vendor, which are never wrapped in imports and
-// therefore are always executed.
-
-// Import dependencies
-//
-// If you no longer want to use a dependency, remember
-// to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import {Socket} from "phoenix"
 
-// Import local files
-//
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "web/static/js/socket".
+const socket = new Socket("/socket")
+socket.connect()
 
-// import socket from "./socket"
+const messages = document.getElementById("messages")
+const chatInput = document.getElementById("chat-input")
+
+let id
+let myChannel
+let currentRoom
+
+const idChannel = socket.channel("id")
+idChannel.join()
+  .receive("ok", idChannelHandler)
+
+chatInput.addEventListener("keypress", chatInputHandler)
+
+function chatInputHandler(e) {
+  if(currentRoom !== undefined && e.keyCode === 13) {
+    currentRoom.push("new_message", {body: chatInput.value})
+    chatInput.value = ""
+  }
+}
+
+function idChannelHandler(resp) {
+  id = resp.id
+  idChannel.leave()
+
+  myChannel = socket.channel(`strangers:${id}`)
+  myChannel.join()
+    .receive("ok", myChannelHandler)
+}
+
+function myChannelHandler() {
+  myChannel.on("join_room", resp => {
+    const topic = resp.topic
+    currentRoom = socket.channel(topic)
+    currentRoom.join()
+    currentRoom.on("new_message", newMessageHandler)
+  })
+
+  myChannel.on("leave_room", resp => {
+    const topic = resp.topic
+    let room = socket.channels.find(channel => {
+      return channel.topic === topic
+    })
+    room.leave()
+    currentRoom = undefined
+  })
+}
+
+function newMessageHandler(resp) {
+  messages.innerHTML += `<p>${resp.body}</p>`
+}
