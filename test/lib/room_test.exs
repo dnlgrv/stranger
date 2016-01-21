@@ -43,4 +43,11 @@ defmodule Stranger.RoomTest do
 
     assert Room.all() == []
   end
+
+  test "finding by stranger" do
+    Room.create("random_name", "stranger1", "stranger2")
+
+    assert {"random_name", _, _} = Room.by_stranger("stranger1")
+    assert {"random_name", _, _} = Room.by_stranger("stranger2")
+  end
 end

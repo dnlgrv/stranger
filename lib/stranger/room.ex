@@ -21,6 +21,16 @@ defmodule Stranger.Room do
     end)
   end
 
+  def by_stranger(id) do
+    Enum.find(all, fn(room) ->
+      case room do
+        {_, ^id, _} -> room
+        {_, _, ^id} -> room
+        _ -> nil
+      end
+    end)
+  end
+
   def create(name, id1, id2) do
     GenServer.call(__MODULE__, {:create, {name, id1, id2}})
   end
