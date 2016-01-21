@@ -1,4 +1,4 @@
-defmodule Stranger.Pool do
+defmodule Stranger.Lobby do
   use GenServer
 
   def start_link do

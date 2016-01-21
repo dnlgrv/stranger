@@ -7,11 +7,11 @@ defmodule Stranger.LobbyChannel do
   use Phoenix.Channel
 
   def join("lobby", _join_msg, socket) do
-    Stranger.Pool.add(socket.assigns.stranger_id)
+    Stranger.Lobby.add(socket.assigns.stranger_id)
     {:ok, socket}
   end
 
   def terminate(_msg, socket) do
-    Stranger.Pool.remove(socket.assigns.stranger_id)
+    Stranger.Lobby.remove(socket.assigns.stranger_id)
   end
 end

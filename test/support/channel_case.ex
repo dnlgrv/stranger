@@ -13,8 +13,8 @@ defmodule Stranger.ChannelCase do
 
   setup do
     on_exit fn ->
-      # Clean up the pool after each test run
-      Enum.each(Stranger.Pool.all(), &Stranger.Pool.remove/1)
+      # Clean up the lobby after each test run
+      Enum.each(Stranger.Lobby.all(), &Stranger.Lobby.remove/1)
     end
 
     :ok
