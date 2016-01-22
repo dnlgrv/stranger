@@ -1,0 +1,33 @@
+<article class="page">
+  <header>
+    <h1>User Agreement</h1>
+  </header>
+
+  <div>
+    <p>
+      By using hellostranger.xyz ("the website", "the site", "we"), you
+      acknowledge that you have read, understood and agree to the terms and
+      privacy policy detailed in this page.
+    </p>
+
+    <h2>Terms</h2>
+
+    <ul>
+      <li>You must be over 13 years of age to use the website. If you're under 18 years old, you are to use the website only with the permission of your parents or other legal guardian.</li>
+      <li>Do not send any content that might be offensive, sexual, inappropriate, or illegal in any way.</li>
+      <li>Do not send any self-identifying information, or any personal information about anybody.</li>
+      <li>The website is not responsible for, nor does it endorse any of the actions of its users or their implications. Rather, every user is responsible for their own actions and conduct on the website.</li>
+      <li>All messages exchanged on the website shall be regarded as works of fiction.</li>
+      <li>The use of the website is solely at your own risk.</li>
+      <li>The use of the website is allowed for humans only. Automated bots are prohibited.</li>
+      <li>We are not liable in any way for any kind of damages in any way related to the use of the website.</li>
+      <li>The website is provided "as is", and without warranty of any kind.</li>
+      <li>We may ban users from using the website for any reason.</li>
+    </ul>
+
+    <h2>Privacy Policy</h2>
+
+    <p>We do not collect or store any information about our users' messages.</p>
+    <p>The website uses Google Analytics in order to keep track of non-personally identifiable information about the site's usage.</p>
+  </div>
+</article>

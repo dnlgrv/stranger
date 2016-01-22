@@ -4,4 +4,8 @@ defmodule Stranger.PageController do
   def index(conn, _params) do
     render conn, "index.html"
   end
+
+  def agreement(conn, _params) do
+    render conn, "agreement.html"
+  end
 end

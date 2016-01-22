@@ -9,18 +9,10 @@ defmodule Stranger.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", Stranger do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
+    get "/agreement", PageController, :agreement
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Stranger do
-  #   pipe_through :api
-  # end
 end
