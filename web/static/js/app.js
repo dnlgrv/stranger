@@ -31,6 +31,13 @@ function idChannelHandler(resp) {
   myChannel = socket.channel(`strangers:${id}`)
   myChannel.join()
     .receive("ok", myChannelHandler)
+
+  joinLobby()
+}
+
+function joinLobby() {
+  console.log("Join lobby")
+  socket.channel("lobby").join()
 }
 
 function myChannelHandler() {
@@ -48,6 +55,10 @@ function myChannelHandler() {
     })
     room.leave()
     currentRoom = undefined
+
+    if(topic !== "lobby") {
+      joinLobby()
+    }
   })
 }
 

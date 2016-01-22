@@ -13,8 +13,9 @@ defmodule Stranger.ChannelCase do
 
   setup do
     on_exit fn ->
-      # Clean up the lobby after each test run
+      # Clean up lobby and rooms
       Enum.each(Stranger.Lobby.all(), &Stranger.Lobby.remove/1)
+      Enum.each(Stranger.Room.all(), &Stranger.Room.delete/1)
     end
 
     :ok
