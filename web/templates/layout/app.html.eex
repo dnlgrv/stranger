@@ -17,7 +17,11 @@
       <div class="sidebar__overlay"></div>
 
       <aside class="sidebar">
-        <label class="sidebar__toggle-button" for="sidebar-toggle">MENU</label>
+        <label class="sidebar__toggle-button" for="sidebar-toggle">
+          <svg viewBox="0 0 92.833 92.833">
+            <use xlink:href="/images/menu_icon.svg#Capa_1"/>
+          </svg>
+        </label>
 
         <header class="sidebar__header">
           <h1 class="sidebar__heading">Stranger</h1>
