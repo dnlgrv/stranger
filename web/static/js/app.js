@@ -1,2 +1,6 @@
 import "phoenix_html"
-import "./chat"
+import Chat from "./chat"
+
+if(document.querySelector("[data-init='chat']")) {
+  new Chat()
+}

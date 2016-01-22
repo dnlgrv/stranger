@@ -1,94 +1,102 @@
 import {Socket} from "phoenix"
 
-const socket = new Socket("/socket")
-socket.connect()
+class Chat {
+  constructor() {
+    this.socket = new Socket("/socket")
+    this.socket.connect()
 
-const messages = document.querySelector(".chat__messages")
-const chatInput = document.querySelector(".chat__text-field")
+    this.messages = document.querySelector(".chat__messages")
+    this.chatInput = document.querySelector(".chat__text-field")
 
-let id
-let myChannel
-let currentRoom
+    this.id = undefined
+    this.myChannel = undefined
+    this.currentRoom = undefined
 
-const idChannel = socket.channel("id")
-idChannel.join()
-  .receive("ok", idChannelHandler)
+    this.idChannel = this.socket.channel("id")
+    this.idChannel.join()
+      .receive("ok", this.idChannelHandler.bind(this))
 
-chatInput.addEventListener("keypress", chatInputHandler)
-
-function chatInputHandler(e) {
-  if(currentRoom !== undefined && e.keyCode === 13 && chatInput.value !== "") {
-    currentRoom.push("new_message", {body: chatInput.value})
-    chatInput.value = ""
+    this.chatInput.addEventListener("keypress", this.chatInputHandler.bind(this))
   }
-}
 
-function clear() {
-  messages.innerHTML = ""
-}
-
-function idChannelHandler(resp) {
-  id = resp.id
-
-  myChannel = socket.channel(`strangers:${id}`)
-  myChannel.join()
-    .receive("ok", myChannelHandler)
-
-  joinLobby()
-}
-
-function joinLobby() {
-  socket.channel("lobby").join()
-  systemMessage("Finding a stranger to chat with...")
-}
-
-function myChannelHandler() {
-  myChannel.on("join_room", resp => {
-    clear()
-    systemMessage("You're now chatting with a stranger")
-    strangerMessage("Hello stranger", false)
-    strangerMessage("Hello stranger", true)
-
-    const topic = resp.topic
-    currentRoom = socket.channel(topic)
-    currentRoom.join()
-    currentRoom.on("new_message", resp => {
-      strangerMessage(resp.body, resp.sender !== id)
-    })
-  })
-
-  myChannel.on("leave_room", resp => {
-    const topic = resp.topic
-    let room = socket.channels.find(channel => {
-      return channel.topic === topic
-    })
-    room.leave()
-    currentRoom = undefined
-
-    if(topic !== "lobby") {
-      clear()
-      systemMessage("Stranger left the chat")
-      joinLobby()
+  chatInputHandler(e) {
+    if(this.currentRoom !== undefined &&
+        e.keyCode === 13 && this.chatInput.value !== "") {
+      this.currentRoom.push("new_message", {body: this.chatInput.value})
+      this.chatInput.value = ""
     }
-  })
-}
+  }
 
-function newMessage(message, messageClass) {
-  messages.innerHTML += `<div class="message ${messageClass}">
+  idChannelHandler(resp) {
+    this.id = resp.id
+
+    this.myChannel = this.socket.channel(`strangers:${this.id}`)
+    this.myChannel.join()
+      .receive("ok", this.myChannelHandler.bind(this))
+
+    this.joinLobby()
+  }
+
+  joinLobby() {
+    this.socket.channel("lobby").join()
+    this.systemMessage("Finding a stranger to chat with...")
+  }
+
+  clear() {
+    this.messages.innerHTML = ""
+  }
+
+  myChannelHandler() {
+    this.myChannel.on("join_room", resp => {
+      this.clear()
+      this.systemMessage("You're now chatting with a stranger")
+      this.strangerMessage("Hello stranger", false)
+      this.strangerMessage("Hello stranger", true)
+
+      const topic = resp.topic
+      this.currentRoom = this.socket.channel(topic)
+      this.currentRoom.join()
+      this.currentRoom.on("new_message", resp => {
+        this.strangerMessage(resp.body, resp.sender !== this.id)
+      })
+    })
+
+    this.myChannel.on("leave_room", resp => {
+      const topic = resp.topic
+      let room = this.socket.channels.find(channel => {
+        return channel.topic === topic
+      })
+      room.leave()
+      this.currentRoom = undefined
+
+      if(topic !== "lobby") {
+        this.clear()
+        this.systemMessage("Stranger left the chat")
+        this.joinLobby()
+      }
+    })
+  }
+
+  newMessage(message, messageClass) {
+    this.messages.innerHTML += `<div class="message ${messageClass}">
 <time class="message__time">${new Date().toLocaleTimeString()}</time>
 <p class="message__content">${message}</p>
 </div>`
-  messages.scrollTop = messages.scrollHeight
-}
+    this.messages.scrollTop = this.messages.scrollHeight
+  }
 
-function strangerMessage(message, received) {
-  if(received) {
-    newMessage(message, "message--received")
-  } else {
-    newMessage(message, "message--sent")
+  strangerMessage(message, received) {
+    if(received) {
+      this.newMessage(message, "message--received")
+    } else {
+      this.newMessage(message, "message--sent")
+    }
+  }
+
+  systemMessage(message) {
+    this.newMessage(message, "message--system")
   }
 }
 
-function systemMessage(message) {
-  newMessage(message, "message--system")
-}
+export default Chat
+
