@@ -14,6 +14,7 @@
   <body>
     <div class="wrapper">
       <input class="sidebar__toggle" id="sidebar-toggle" type="checkbox">
+      <div class="sidebar__overlay"></div>
 
       <aside class="sidebar">
         <label class="sidebar__toggle-button" for="sidebar-toggle">MENU</label>
