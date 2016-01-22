@@ -8,24 +8,20 @@ defmodule Stranger.LobbyChannel do
 
   alias Stranger.{Lobby, Room}
 
-  def join("lobby", _join_msg, socket) do
-    case Lobby.all do
-      [] ->
-        Lobby.add(socket.assigns.stranger_id)
-      [stranger2] ->
-        stranger1 = socket.assigns.stranger_id
-
-        room_name = random_room_name()
-        Room.create(room_name, stranger1, stranger2)
-
-        leave_room("lobby", stranger1)
-        leave_room("lobby", stranger2)
-
-        join_room("rooms:#{room_name}", stranger1)
-        join_room("rooms:#{room_name}", stranger2)
-    end
-
+  def join("lobby", join_msg, socket) do
+    join("lobby", join_msg, socket, Lobby.all)
     {:ok, socket}
+  end
+
+  def join("lobby", _join_msg, socket, []) do
+    Lobby.add(socket.assigns.stranger_id)
+  end
+
+  def join("lobby", _join_msg, socket, strangers) do
+    strangers
+    |> Enum.filter(&(&1 != socket.assigns.stranger_id))
+    |> Enum.random()
+    |> create_and_join_room(socket)
   end
 
   def terminate(_msg, socket) do
@@ -42,6 +38,20 @@ defmodule Stranger.LobbyChannel do
     Stranger.Endpoint.broadcast! "strangers:#{id}",
                                  "leave_room",
                                  %{topic: name}
+  end
+
+  defp create_and_join_room(nil, _socket), do: :ok
+  defp create_and_join_room(stranger2, socket) do
+    stranger1 = socket.assigns.stranger_id
+
+    room_name = random_room_name()
+    Room.create(room_name, stranger1, stranger2)
+
+    leave_room("lobby", stranger1)
+    leave_room("lobby", stranger2)
+
+    join_room("rooms:#{room_name}", stranger1)
+    join_room("rooms:#{room_name}", stranger2)
   end
 
   defp random_room_name() do

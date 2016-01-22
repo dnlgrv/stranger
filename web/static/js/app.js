@@ -36,7 +36,6 @@ function idChannelHandler(resp) {
 }
 
 function joinLobby() {
-  console.log("Join lobby")
   socket.channel("lobby").join()
 }
 
