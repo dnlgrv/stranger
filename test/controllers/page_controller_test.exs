@@ -6,7 +6,7 @@ defmodule Stranger.PageControllerTest do
     assert html_response(conn, 200) =~ "Hello Stranger"
   end
 
-  get "GET /agreement", %{conn: conn} do
+  test "GET /agreement", %{conn: conn} do
     conn = get conn, "/agreement"
     assert html_response(conn, 200) =~ "User Agreement"
   end
