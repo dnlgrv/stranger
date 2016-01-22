@@ -20,9 +20,12 @@ defmodule Stranger.RoomChannel do
   end
 
   def terminate(_msg, socket) do
-    {room_name, id1, id2} = Room.by_stranger(socket.assigns.stranger_id)
-    Enum.each([id1, id2], &(leave_room(&1, room_name)))
-    Room.delete(room_name)
+    case Room.by_stranger(socket.assigns.stranger_id) do
+      {room_name, id1, id2} ->
+        Enum.each([id1, id2], &(leave_room(&1, room_name)))
+        Room.delete(room_name)
+      nil -> :ok
+    end
   end
 
   defp leave_room(id, room_name) do

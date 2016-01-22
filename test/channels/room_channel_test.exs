@@ -51,6 +51,6 @@ defmodule Stranger.RoomChannelTest do
     assert_broadcast "leave_room", %{topic: "rooms:example"}
     assert_broadcast "leave_room", %{topic: "rooms:example"}
 
-    assert Room.all() == []
+    refute Room.by_name("example")
   end
 end
