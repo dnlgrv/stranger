@@ -19,7 +19,7 @@
       <aside class="sidebar">
         <label class="sidebar__toggle-button" for="sidebar-toggle">
           <svg viewBox="0 0 92.833 92.833">
-            <use xlink:href="/images/menu_icon.svg#Capa_1"/>
+            <use xlink:href="/images/menu_icon.svg#icon"/>
           </svg>
         </label>
 
