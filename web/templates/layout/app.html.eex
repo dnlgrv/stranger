@@ -13,7 +13,11 @@
 
   <body>
     <div class="wrapper">
+      <input class="sidebar__toggle" id="sidebar-toggle" type="checkbox">
+
       <aside class="sidebar">
+        <label class="sidebar__toggle-button" for="sidebar-toggle">MENU</label>
+
         <header class="sidebar__header">
           <h1 class="sidebar__heading">Stranger</h1>
         </header>
