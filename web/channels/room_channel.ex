@@ -15,7 +15,7 @@ defmodule Stranger.RoomChannel do
   end
 
   def handle_in("new_message", %{"body" => body}, socket) do
-    broadcast! socket, "new_message", %{body: body}
+    broadcast! socket, "new_message", %{body: body, sender: socket.assigns.stranger_id}
     {:noreply, socket}
   end
 

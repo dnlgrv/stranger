@@ -9,10 +9,11 @@ defmodule Stranger.RoomChannelTest do
   end
 
   test "broadcasts messages in that room", %{socket: socket} do
-    Room.create("example", socket.assigns.stranger_id, nil)
+    id = socket.assigns.stranger_id
+    Room.create("example", id, nil)
     {:ok, _, socket} = subscribe_and_join(socket, "rooms:example", %{})
     push socket, "new_message", %{"body" => "test message"}
-    assert_broadcast "new_message", %{body: "test message"}
+    assert_broadcast "new_message", %{body: "test message", sender: id}
   end
 
   test "error if room hasn't been created", %{socket: socket} do
