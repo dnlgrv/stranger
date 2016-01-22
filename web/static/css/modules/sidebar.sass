@@ -1,0 +1,30 @@
+@import ../variables
+
+.sidebar
+  background-color: $primary
+  display: flex
+  flex: 0 0 auto
+  flex-direction: column
+  padding: 2rem
+  width: 15rem
+
+  a
+    color: white
+    text-decoration: none
+
+    &:hover
+      text-decoration: underline
+
+  &__heading
+    margin: 0 0 1rem
+    text-transform: uppercase
+
+  &__content
+    flex: 1
+
+    p
+      margin-bottom: 1rem
+
+  &__footer
+    border-top: 1px solid rgba(0,0,0,.13)
+    padding: 1rem 0

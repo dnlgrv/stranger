@@ -1,26 +1,16 @@
 .chat
   display: flex
+  flex: 1
   flex-direction: column
-  height: 100%
-
-  &__agreement
-    color: darken(coral, 30%)
-    font-size: 0.75rem
-    margin-top: 1rem
-    text-align: center
-
-    &-link
-      color: white
-      text-decoration: none
 
   &__messages
     background-color: rgba(0,0,0,0.1)
-    flex-grow: 1
+    flex: 1
     overflow-y: scroll
 
   &__input
     background-color: coral
-    min-height: 6.75rem
+    min-height: 5rem
     padding: 1rem
 
   &__text-field

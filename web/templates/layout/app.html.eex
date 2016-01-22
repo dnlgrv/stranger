@@ -12,9 +12,26 @@
   </head>
 
   <body>
-    <main role="main">
-      <%= render @view_module, @view_template, assigns %>
-    </main>
+    <div class="wrapper">
+      <aside class="sidebar">
+        <header class="sidebar__header">
+          <h1 class="sidebar__heading">Stranger</h1>
+        </header>
+
+        <div class="sidebar__content">
+          <p>Chat anonymously with a randomly chosen stranger.</p>
+        </div>
+
+        <footer class="sidebar__footer">
+          By using this site you accept the
+          <%= link "User Agreement", to: page_path(@conn, :agreement) %>
+        </footer>
+      </aside>
+
+      <main role="main">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div>
 
     <%= render "_fonts_tracking_code.html" %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

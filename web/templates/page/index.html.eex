@@ -2,9 +2,5 @@
   <div class="chat__messages"></div>
   <div class="chat__input">
     <input class="chat__text-field" type="text" placeholder="Type your message and press enter to send...">
-
-    <div class="chat__agreement">
-      By using this site you accept the <%= link "User Agreement", to: page_path(@conn, :agreement), class: "chat__agreement-link" %>
-    </div>
   </div>
 </div>
