@@ -24,9 +24,12 @@ function chatInputHandler(e) {
   }
 }
 
+function clear() {
+  messages.innerHTML = ""
+}
+
 function idChannelHandler(resp) {
   id = resp.id
-  idChannel.leave()
 
   myChannel = socket.channel(`strangers:${id}`)
   myChannel.join()
@@ -37,14 +40,22 @@ function idChannelHandler(resp) {
 
 function joinLobby() {
   socket.channel("lobby").join()
+  systemMessage("Finding a stranger to chat with...")
 }
 
 function myChannelHandler() {
   myChannel.on("join_room", resp => {
+    clear()
+    systemMessage("You're now chatting with a stranger")
+    strangerMessage("Hello stranger", false)
+    strangerMessage("Hello stranger", true)
+
     const topic = resp.topic
     currentRoom = socket.channel(topic)
     currentRoom.join()
-    currentRoom.on("new_message", newMessageHandler)
+    currentRoom.on("new_message", resp => {
+      strangerMessage(resp.body, resp.sender !== id)
+    })
   })
 
   myChannel.on("leave_room", resp => {
@@ -56,11 +67,29 @@ function myChannelHandler() {
     currentRoom = undefined
 
     if(topic !== "lobby") {
+      clear()
+      systemMessage("Stranger left the chat")
       joinLobby()
     }
   })
 }
 
-function newMessageHandler(resp) {
-  messages.innerHTML += `<p>${resp.body}</p>`
+function newMessage(message, messageClass) {
+  messages.innerHTML += `<div class="message ${messageClass}">
+<time class="message__time">${new Date().toLocaleTimeString()}</time>
+<p class="message__content">${message}</p>
+</div>`
+  messages.scrollTop = messages.scrollHeight
+}
+
+function strangerMessage(message, received) {
+  if(received) {
+    newMessage(message, "message--received")
+  } else {
+    newMessage(message, "message--sent")
+  }
+}
+
+function systemMessage(message) {
+  newMessage(message, "message--system")
 }
