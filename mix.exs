@@ -26,6 +26,7 @@ defmodule Stranger.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
 
+     {:exrm, "~> 1.0.0-rc7"},
      {:phoenix_live_reload, "~> 1.0", only: :dev}]
   end
 end
