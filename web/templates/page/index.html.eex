@@ -1,2 +1,6 @@
-<div id="messages"></div>
-<input id="chat-input" type="text">
+<div class="chat">
+  <div class="chat__messages"></div>
+  <div class="chat__input">
+    <input class="chat__text-field" type="text" placeholder="Type your message and press enter to send...">
+  </div>
+</div>

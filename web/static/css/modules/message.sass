@@ -1,0 +1,31 @@
+.message
+  margin-bottom: 1rem
+  padding: 1rem
+
+  &--system
+    background: none
+    color: dimgrey
+    text-align: center
+
+  &--received, &--sent
+    .message__content
+      border-radius: 0.3rem
+      display: inline-block
+      padding: 1rem
+
+  &--received
+    text-align: right
+
+    .message__content
+      background-color: coral
+      color: white
+
+  &--sent
+    .message__content
+      background-color: silver
+
+  &__time
+    color: slategrey
+    display: block
+    font-size: 0.75rem
+    margin-bottom: 0.5rem

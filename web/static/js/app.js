@@ -4,8 +4,8 @@ import {Socket} from "phoenix"
 const socket = new Socket("/socket")
 socket.connect()
 
-const messages = document.getElementById("messages")
-const chatInput = document.getElementById("chat-input")
+const messages = document.querySelector(".chat__messages")
+const chatInput = document.querySelector(".chat__text-field")
 
 let id
 let myChannel
