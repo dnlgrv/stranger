@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Stranger!</title>
+    <title>Hello Stranger</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -16,6 +16,7 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
 
+    <script src="//fast.fonts.net/jsapi/38d55e48-4075-4e45-9b94-1601ba6215c1.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
