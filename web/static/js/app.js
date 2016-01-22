@@ -18,7 +18,7 @@ idChannel.join()
 chatInput.addEventListener("keypress", chatInputHandler)
 
 function chatInputHandler(e) {
-  if(currentRoom !== undefined && e.keyCode === 13) {
+  if(currentRoom !== undefined && e.keyCode === 13 && chatInput.value !== "") {
     currentRoom.push("new_message", {body: chatInput.value})
     chatInput.value = ""
   }
