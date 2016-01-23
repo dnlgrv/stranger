@@ -1,0 +1,34 @@
+<input class="sidebar__toggle" id="sidebar-toggle" type="checkbox">
+<div class="sidebar__overlay"></div>
+
+<aside class="sidebar">
+  <label class="sidebar__toggle-button" for="sidebar-toggle">
+    <svg viewBox="0 0 92.833 92.833">
+      <use xlink:href="/images/menu_icon.svg#icon"/>
+    </svg>
+  </label>
+
+  <header class="sidebar__header">
+    <h1 class="sidebar__heading">
+      <span>Hello</span><br/>
+      Stranger
+    </h1>
+  </header>
+
+  <div class="sidebar__content">
+    <p>Chat anonymously with a randomly chosen stranger.</p>
+  </div>
+
+  <footer class="sidebar__footer">
+    <p class="sidebar__social">
+      Made by <%= link "cazrin", to: "http://cazrin.net" %><br/>
+      Source available on
+      <%= link "GitHub", to: "https://github.com/cazrin/stranger" %>
+    </p>
+
+    <p class="sidebar__agreement">
+      By using this site you accept the
+      <%= link "User Agreement", to: page_path(@conn, :agreement) %>
+    </p>
+  </footer>
+</aside>

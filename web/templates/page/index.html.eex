@@ -8,7 +8,7 @@
 <article class="welcome">
   <header class="welcome__header">
     <h1 class="welcome__heading">
-      <span>Hello</span><br />
+      <span>Hello</span><br/>
       Stranger
     </h1>
   </header>
