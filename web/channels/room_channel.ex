@@ -15,7 +15,13 @@ defmodule Stranger.RoomChannel do
   end
 
   def handle_in("new_message", %{"body" => body}, socket) do
-    broadcast! socket, "new_message", %{body: body, sender: socket.assigns.stranger_id}
+    body = HtmlSanitizeEx.strip_tags(body)
+
+    if String.length(body) > 0 do
+      broadcast! socket, "new_message",
+                 %{body: body, sender: socket.assigns.stranger_id}
+    end
+
     {:noreply, socket}
   end
 
