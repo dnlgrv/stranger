@@ -14,7 +14,8 @@ defmodule Stranger.Mixfile do
 
   def application do
     [mod: {Stranger, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
+                    :html_sanitize_ex]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
