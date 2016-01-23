@@ -1,5 +1,8 @@
 use Mix.Config
 
+config :stranger,
+  ga_tracking_code: "UA-72394507-2"
+
 # For production, we configure the host to read the PORT
 # from the system environment. Therefore, you will need
 # to set PORT=80 before running your server.

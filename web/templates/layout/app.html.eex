@@ -23,9 +23,7 @@
     </div>
 
     <%= render "_fonts_tracking_code.html" %>
-    <% if Mix.env == "prod" do %>
-      <%= render "_ga_tracking.html" %>
-    <% end %>
+    <%= render "_ga_tracking.html" %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

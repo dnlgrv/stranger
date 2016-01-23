@@ -5,6 +5,9 @@
 # is restricted to this project.
 use Mix.Config
 
+config :stranger,
+  ga_tracking_code: ""
+
 # Configures the endpoint
 config :stranger, Stranger.Endpoint,
   url: [host: "localhost"],
