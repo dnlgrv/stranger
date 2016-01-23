@@ -17,6 +17,9 @@ Chat anonymously with a randomly chosen stranger. Lives at
 * JavaScript tests
 * Simplify the implementation, it's quite messy at the moment
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
