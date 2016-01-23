@@ -6,7 +6,7 @@ Chat anonymously with a randomly chosen stranger. Lives at
 ## Setup
 
 * Install the necessary versions of Erlang/Elixir (versions are specified in
-  [.tool-versions](.tool-versions)
+  [.tool-versions](.tool-versions))
 * Grab all dependencies with `mix deps.get`
 * Make sure all the tests are passing `mix test`
 * Spin up the server with `mix phoenix.server`
@@ -15,7 +15,7 @@ Chat anonymously with a randomly chosen stranger. Lives at
 
 * Documentation and doc tests
 * JavaScript tests
-* Simplify the implementation, it's quite messy at the moment
+* Simplify the implementation, I think it's a bit complex right now
 
 ## Contributing
 
