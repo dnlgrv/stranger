@@ -9,6 +9,7 @@ defmodule Stranger do
     children = [
       # Start the endpoint when the application starts
       supervisor(Stranger.Endpoint, []),
+      worker(Stranger.Stats, []),
       worker(Stranger.Lobby, []),
       worker(Stranger.Room, [])
       # Start the Ecto repository

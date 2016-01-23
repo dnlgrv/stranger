@@ -7,6 +7,7 @@ class Chat {
 
     this.messages = document.querySelector(".chat__messages")
     this.chatInput = document.querySelector(".chat__text-field")
+    this.stats = document.querySelector(".chat__stats")
 
     this.id = undefined
     this.myChannel = undefined
@@ -29,6 +30,7 @@ class Chat {
 
   idChannelHandler(resp) {
     this.id = resp.id
+    this.idChannel.on("stats", this.statsHandler.bind(this))
 
     this.myChannel = this.socket.channel(`strangers:${this.id}`)
     this.myChannel.join()
@@ -75,6 +77,16 @@ class Chat {
         this.joinLobby()
       }
     })
+  }
+
+  statsHandler(resp) {
+    let noun = "stranger"
+
+    if(resp.connections !== 1) {
+      noun += "s"
+    }
+
+    this.stats.innerHTML = `${resp.connections} ${noun} online`
   }
 
   newMessage(message, messageClass) {

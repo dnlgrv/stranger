@@ -1,4 +1,5 @@
 <div class="chat" data-init="chat">
+  <div class="chat__stats">0 strangers online</div>
   <div class="chat__messages"></div>
   <div class="chat__input">
     <input class="chat__text-field" type="text" placeholder="Type your message and press enter to send...">
