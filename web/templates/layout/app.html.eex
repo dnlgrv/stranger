@@ -9,6 +9,8 @@
 
     <title>Hello Stranger</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+
+    <%= render "_icons.html" %>
   </head>
 
   <body>
