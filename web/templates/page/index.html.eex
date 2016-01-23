@@ -4,3 +4,23 @@
     <input class="chat__text-field" type="text" placeholder="Type your message and press enter to send...">
   </div>
 </div>
+
+<article class="welcome">
+  <header class="welcome__header">
+    <h1 class="welcome__heading">
+      <span>Hello</span><br />
+      Stranger
+    </h1>
+  </header>
+
+  <p class="welcome__content">
+    You're about to chat anonymously with a randomly chosen stranger. Be nice,
+    and be safe. By using this site you accept the <%= link "User Agreement",
+    to: page_path(@conn, :agreement) %>, so make sure you've read it.
+  </p>
+
+  <footer class="welcome__footer">
+    <p class="welcome__footnote">You won't see this message the next time you visit.</p>
+    <button class="welcome__go" data-click="start">Let's go</button>
+  </footer>
+</article>
