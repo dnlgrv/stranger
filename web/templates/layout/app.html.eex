@@ -14,7 +14,7 @@
   </head>
 
   <body>
-    <div class="wrapper">
+    <div class="wrapper <%= render_existing @view_module, "wrapper_class_" <> @view_template %>">
       <%= render "_sidebar.html", conn: @conn %>
 
       <main role="main">
