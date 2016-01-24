@@ -3,7 +3,7 @@ defmodule Stranger.Mixfile do
 
   def project do
     [app: :stranger,
-     version: "0.0.5",
+     version: "0.0.7",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
