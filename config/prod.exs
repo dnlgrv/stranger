@@ -1,7 +1,11 @@
 use Mix.Config
 
-config :stranger,
-  ga_tracking_code: "UA-72394507-2"
+## Google Analytics
+#
+# If needed add a tracking code to `config/prod.secret.exs`
+#
+#     config :stranger,
+#       ga_tracking_code: "UA-12345678-9"
 
 # For production, we configure the host to read the PORT
 # from the system environment. Therefore, you will need
