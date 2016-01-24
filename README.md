@@ -1,5 +1,7 @@
 # Stranger
 
+[![Build Status](https://travis-ci.org/cazrin/stranger.svg?branch=master)](https://travis-ci.org/cazrin/stranger)
+
 Chat anonymously with a randomly chosen stranger. Lives at
 [https://hellostranger.xyz][1].
 
