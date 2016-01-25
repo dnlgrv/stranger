@@ -10,14 +10,4 @@ defmodule Stranger.ChannelCase do
       @endpoint Stranger.Endpoint
     end
   end
-
-  setup do
-    on_exit fn ->
-      # Clean up lobby and rooms
-      Enum.each(Stranger.Lobby.all(), &Stranger.Lobby.remove/1)
-      Enum.each(Stranger.Room.all(), &Stranger.Room.delete/1)
-    end
-
-    :ok
-  end
 end
