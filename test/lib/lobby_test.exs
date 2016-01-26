@@ -1,9 +1,17 @@
 defmodule Stranger.LobbyTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias Stranger.Lobby
 
   @id "my-test-id"
+
+  setup do
+    on_exit fn ->
+      Enum.each(Lobby.strangers, &Lobby.leave/1)
+    end
+
+    :ok
+  end
 
   test "joining the lobby" do
     pid = test_pid
