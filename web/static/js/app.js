@@ -1,4 +1,9 @@
 import "phoenix_html"
+import {Socket} from "phoenix"
+
+let socket = new Socket("/socket", {params: {id: window.stranger.id}})
+socket.connect()
+
 // import Chat from "./chat"
 
 // if(document.querySelector("[data-init='chat']")) {
