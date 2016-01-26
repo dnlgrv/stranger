@@ -4,6 +4,14 @@ import {Socket} from "phoenix"
 let socket = new Socket("/socket", {params: {id: window.stranger.id}})
 socket.connect()
 
+let lobby = socket.channel("lobby", {})
+lobby.join()
+  .receive("ok", resp => {
+    lobby.on("join_room", resp => {
+      console.log(resp)
+    })
+  })
+
 // import Chat from "./chat"
 
 // if(document.querySelector("[data-init='chat']")) {
