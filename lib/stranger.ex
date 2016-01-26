@@ -8,7 +8,8 @@ defmodule Stranger do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(Stranger.Endpoint, [])
+      supervisor(Stranger.Endpoint, []),
+      supervisor(Stranger.Lobby.Supervisor, [])
       # Start the Ecto repository
       # Here you could define other workers and supervisors as children
       # worker(Stranger.Worker, [arg1, arg2, arg3]),
