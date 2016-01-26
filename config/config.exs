@@ -6,7 +6,8 @@
 use Mix.Config
 
 config :stranger,
-  ga_tracking_code: ""
+  ga_tracking_code: "",
+  id_length: 64
 
 # Configures the endpoint
 config :stranger, Stranger.Endpoint,

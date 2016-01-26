@@ -25,3 +25,9 @@
     <button class="welcome__go" data-click="start">Let's go</button>
   </footer>
 </article>
+
+<script>
+  window.stranger = {
+    id: "<%= @id %>"
+  };
+</script>
