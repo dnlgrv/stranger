@@ -4,34 +4,28 @@ defmodule Stranger.RoomTest do
   alias Stranger.Room
 
   @id "my-test-id"
-  @room "example"
 
-  test "joining a room" do
-    {:ok, pid} = Room.create(@room, [@id])
-    assert {:ok, ^pid} = Room.join(@room, @id, test_pid)
-
-    assert {:error, "Room does not exist"} = Room.join("bad-room", @id, test_pid)
-    assert {:error, "ID not allowed to join room"} = Room.join(@room, "bad-id", test_pid)
-
-    :global.whereis_name({:room, @room})
-    |> GenServer.stop()
+  setup do
+    room = :crypto.strong_rand_bytes(32) |> Base.encode64()
+    {:ok, %{room: room}}
   end
 
-  test "closes room when a 'joined' stranger goes down" do
-    {:ok, pid} = Room.create(@room, [@id])
+  test "joining a room", %{room: room} do
+    {:ok, pid} = Room.create(room, [@id])
+    assert {:ok, ^pid} = Room.join(room, @id, self)
+
+    assert {:error, "Room does not exist"} = Room.join("bad-room", @id, self)
+    assert {:error, "ID not allowed to join room"} = Room.join(room, "bad-id", self)
+  end
+
+  test "closes room when a 'joined' stranger goes down", %{room: room} do
+    {:ok, pid} = Room.create(room, [@id])
     ref = Process.monitor(pid)
 
     spawn fn ->
-      Room.join(@room, @id, self)
+      Room.join(room, @id, self)
     end
 
     assert_receive {:DOWN, ^ref, :process, ^pid, :normal}
-  end
-
-  defp test_pid do
-    spawn fn ->
-      receive do
-      end
-    end
   end
 end

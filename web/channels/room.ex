@@ -11,4 +11,15 @@ defmodule Stranger.Channel.Room do
         {:error, %{}}
     end
   end
+
+  def handle_in("message", %{"body" => body}, socket) do
+    broadcast_message(body, socket)
+  end
+
+  defp broadcast_message("", socket), do: {:noreply, socket}
+  defp broadcast_message(msg, socket) do
+    msg = HtmlSanitizeEx.strip_tags(msg)
+    broadcast! socket, "message", %{body: msg, sender: socket.assigns.id}
+    {:noreply, socket}
+  end
 end

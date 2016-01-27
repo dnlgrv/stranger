@@ -19,8 +19,12 @@ defmodule Stranger.Channel.LobbyTest do
   test "leaving the lobby", %{socket: socket} do
     {:ok, _, socket} = join(socket, "lobby")
     Process.unlink(socket.channel_pid)
+    channel_ref = Process.monitor(socket.channel_pid)
+
     ref = leave(socket)
     assert_reply ref, :ok
+
+    assert_receive {:DOWN, ^channel_ref, :process, _, _}
     refute Lobby.find(@id)
   end
 
