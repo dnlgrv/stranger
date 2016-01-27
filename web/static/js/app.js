@@ -8,7 +8,15 @@ let lobby = socket.channel("lobby", {})
 lobby.join()
   .receive("ok", resp => {
     lobby.on("join_room", resp => {
-      console.log(resp)
+      let room = socket.channel(`room:${resp.name}`, {})
+      room.onClose(resp => {
+        console.log("LEFT")
+      })
+
+      room.join()
+        .receive("ok", resp => {
+          console.log("JOINED ROOM")
+        })
     })
   })
 

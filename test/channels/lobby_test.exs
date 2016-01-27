@@ -34,8 +34,8 @@ defmodule Stranger.Channel.LobbyTest do
     assert_push "join_room", %{name: ^name}
 
     # Room was created with valid permissions for both IDs
-    assert {:ok, _} = Room.join(name, @id)
-    assert {:ok, _} = Room.join(name, @id2)
+    assert {:ok, _} = Room.join(name, @id, self)
+    assert {:ok, _} = Room.join(name, @id2, self)
 
     Enum.each([socket, s_socket], fn(sock) ->
       Process.unlink(sock.channel_pid)

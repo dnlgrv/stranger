@@ -26,27 +26,30 @@ defmodule Stranger.Room do
 
   Failing to join will return `{:error, reason}`.
   """
-  def join(name, id) do
+  def join(name, id, pid) do
     case GenServer.whereis(ref(name)) do
       nil ->
         {:error, "Room does not exist"}
-      pid ->
-        GenServer.call(pid, {:join, id})
+      room ->
+        GenServer.call(room, {:join, id, pid})
     end
   end
-
 
   @doc ~S"""
   The ID is only allowed to join if the ID is present in the `ids` list.
   """
-  def handle_call({:join, id}, _from, ids) do
+  def handle_call({:join, id, pid}, _from, ids) do
     if Enum.member?(ids, id) do
+      Process.monitor(pid)
       {:reply, {:ok, self}, ids}
     else
       {:reply, {:error, "ID not allowed to join room"}, ids}
     end
   end
 
+  def handle_info({:DOWN, _ref, :process, _pid, _reason}, ids) do
+    {:stop, :normal, ids}
+  end
 
   defp ref(name) do
     {:global, {:room, name}}
