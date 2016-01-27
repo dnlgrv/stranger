@@ -14,6 +14,10 @@ defmodule Stranger.Channel.Lobby do
     {:noreply, socket}
   end
 
+  defp random_name do
+    :crypto.strong_rand_bytes(32) |> Base.encode64()
+  end
+
   defp try_find_match(socket) do
     spawn fn ->
       filtered_strangers =
@@ -23,7 +27,7 @@ defmodule Stranger.Channel.Lobby do
       if Enum.count(filtered_strangers) > 0 do
         random_stranger = Enum.random(filtered_strangers)
 
-        room_name = "room-#{socket.assigns.id}-#{random_stranger}"
+        room_name = "room-#{random_name}"
         {:ok, _} = Room.create(room_name, [socket.assigns.id, random_stranger])
 
         send(socket.channel_pid, {:join_room, room_name})
