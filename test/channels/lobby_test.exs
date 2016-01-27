@@ -1,7 +1,7 @@
 defmodule Stranger.Channel.LobbyTest do
   use Stranger.ChannelCase
 
-  alias Stranger.Lobby
+  alias Stranger.{Lobby, Room}
 
   @id "my-test-id"
   @id2 "other-test-id"
@@ -30,8 +30,12 @@ defmodule Stranger.Channel.LobbyTest do
     {:ok, _, socket} = join(socket, "lobby")
     {:ok, _, s_socket} = join(s_socket, "lobby")
 
-    assert_push "join_room", %{id: id}
-    assert_push "join_room", %{id: ^id}
+    assert_push "join_room", %{name: name}
+    assert_push "join_room", %{name: ^name}
+
+    # Room was created with valid permissions for both IDs
+    assert {:ok, _} = Room.join(name, @id)
+    assert {:ok, _} = Room.join(name, @id2)
 
     Enum.each([socket, s_socket], fn(sock) ->
       Process.unlink(sock.channel_pid)

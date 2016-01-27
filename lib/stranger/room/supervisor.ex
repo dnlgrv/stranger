@@ -7,7 +7,7 @@ defmodule Stranger.Room.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(Stranger.Room, [], restart: :transient)
+      worker(Stranger.Room, [], restart: :temporary)
     ]
 
     supervise(children, strategy: :simple_one_for_one)

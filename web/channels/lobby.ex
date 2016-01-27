@@ -1,7 +1,7 @@
 defmodule Stranger.Channel.Lobby do
   use Phoenix.Channel
 
-  alias Stranger.Lobby
+  alias Stranger.{Lobby, Room}
 
   def join("lobby", _msg, socket) do
     Lobby.join(socket.assigns.id, socket.channel_pid)
@@ -9,8 +9,8 @@ defmodule Stranger.Channel.Lobby do
     {:ok, socket}
   end
 
-  def handle_info({:join_room, id}, socket) do
-    push socket, "join_room", %{id: id}
+  def handle_info({:join_room, name}, socket) do
+    push socket, "join_room", %{name: name}
     {:noreply, socket}
   end
 
@@ -21,13 +21,13 @@ defmodule Stranger.Channel.Lobby do
         |> Enum.filter(&(&1 != socket.assigns.id))
 
       if Enum.count(filtered_strangers) > 0 do
-        random_stranger =
-          filtered_strangers
-          |> Enum.random()
-          |> Lobby.find()
+        random_stranger = Enum.random(filtered_strangers)
 
-        send(socket.channel_pid, {:join_room, "some-room"})
-        send(random_stranger, {:join_room, "some-room"})
+        room_name = "room-#{socket.assigns.id}-#{random_stranger}"
+        {:ok, _} = Room.create(room_name, [socket.assigns.id, random_stranger])
+
+        send(socket.channel_pid, {:join_room, room_name})
+        send(Lobby.find(random_stranger), {:join_room, room_name})
       end
     end
   end
