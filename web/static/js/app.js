@@ -1,43 +1,29 @@
 import "phoenix_html"
-import {Socket} from "phoenix"
+import Chat from "./chat"
 
-let socket = new Socket("/socket", {params: {id: window.stranger.id}})
-socket.connect()
+const chatEl = document.querySelector("[data-init='chat']")
 
-let lobby = socket.channel("lobby", {})
-lobby.join()
-  .receive("ok", resp => {
-    lobby.on("join_room", resp => {
-      let room = socket.channel(`room:${resp.name}`, {})
-      room.onClose(resp => {
-        console.log("LEFT")
-      })
+if(document.querySelector("[data-init='chat']")) {
+  if(localStorage.getItem("agreed")) {
+    startChat()
+  } else {
+    showWelcome()
+  }
+}
 
-      room.join()
-        .receive("ok", resp => {
-          console.log("JOINED ROOM")
-        })
-    })
+function startChat() {
+  const chat = new Chat(chatEl, window.stranger.id)
+  chat.start()
+}
+
+function showWelcome() {
+  const el = document.querySelector(".welcome")
+  el.classList.add("welcome--show")
+
+  const startButton = el.querySelector("[data-click='start']")
+  startButton.addEventListener("click", e => {
+    el.classList.remove("welcome--show")
+    localStorage.setItem("agreed", true)
+    startChat()
   })
-
-// import Chat from "./chat"
-
-// if(document.querySelector("[data-init='chat']")) {
-//   if(localStorage.getItem("agreed")) {
-//     new Chat()
-//   } else {
-//     showWelcome()
-//   }
-// }
-//
-// function showWelcome() {
-//   const el = document.querySelector(".welcome")
-//   el.classList.add("welcome--show")
-//
-//   const startButton = el.querySelector("[data-click='start']")
-//   startButton.addEventListener("click", e => {
-//     el.classList.remove("welcome--show")
-//     localStorage.setItem("agreed", true)
-//     new Chat()
-//   })
-// }
+}
