@@ -1,77 +1,57 @@
 defmodule Stranger.Room do
+  @moduledoc ~S"""
+  Each room is for a chat between two strangers.
+
+  Only strangers within the `ids` list are allowed to join.
+  """
+
   use GenServer
 
-  # TODO Prevent duplicate room names
-
-  def start_link do
-    GenServer.start_link(__MODULE__, [], name: __MODULE__)
+  @doc ~S"""
+  Helper method for calling `Stranger.Room.Supervisor.start_child/2`.
+  """
+  def create(name, ids) when is_list(ids) do
+    Supervisor.start_child(__MODULE__.Supervisor, [name, ids])
   end
 
-
-  def all do
-    GenServer.call(__MODULE__, :all)
+  @doc ~S"""
+  Starts the GenServer, named globally based on the room name.
+  """
+  def start_link(name, ids) when is_list(ids) do
+    GenServer.start_link(__MODULE__, ids, name: ref(name))
   end
 
-  def by_name(name) do
-    Enum.find(all, fn(room) ->
-      case room do
-        {^name, _, _} -> room
-        _ -> nil
-      end
-    end)
+  @doc ~S"""
+  Attempts to the join the room. If successful will return `{:ok, pid}`.
+
+  Failing to join will return `{:error, reason}`.
+  """
+  def join(name, id, pid) do
+    case GenServer.whereis(ref(name)) do
+      nil ->
+        {:error, "Room does not exist"}
+      room ->
+        GenServer.call(room, {:join, id, pid})
+    end
   end
 
-  def by_stranger(id) do
-    Enum.find(all, fn(room) ->
-      case room do
-        {_, ^id, _} -> room
-        {_, _, ^id} -> room
-        _ -> nil
-      end
-    end)
+  @doc ~S"""
+  The ID is only allowed to join if the ID is present in the `ids` list.
+  """
+  def handle_call({:join, id, pid}, _from, ids) do
+    if Enum.member?(ids, id) do
+      Process.monitor(pid)
+      {:reply, {:ok, self}, ids}
+    else
+      {:reply, {:error, "ID not allowed to join room"}, ids}
+    end
   end
 
-  def create(name, id1, id2) do
-    GenServer.call(__MODULE__, {:create, {name, id1, id2}})
+  def handle_info({:DOWN, _ref, :process, _pid, _reason}, ids) do
+    {:stop, :normal, ids}
   end
 
-  def delete(name) do
-    GenServer.call(__MODULE__, {:delete, name})
-  end
-
-  def delete_by_stranger(id) do
-    GenServer.call(__MODULE__, {:delete_by_stranger, id})
-  end
-
-
-  def handle_call(:all, _from, rooms) do
-    {:reply, rooms, rooms}
-  end
-
-  def handle_call({:create, room}, _from, rooms) do
-    {:reply, :ok, [room | rooms]}
-  end
-
-  def handle_call({:delete, name}, _from, rooms) do
-    rooms = Enum.filter(rooms, fn(room) ->
-      case room do
-        {^name, _, _} -> false
-        _ -> true
-      end
-    end)
-
-    {:reply, :ok, rooms}
-  end
-
-  def handle_call({:delete_by_stranger, id}, _from, rooms) do
-    rooms = Enum.filter(rooms, fn(room) ->
-      case room do
-        {_, ^id, _} -> false
-        {_, _, ^id} -> false
-        _ -> true
-      end
-    end)
-
-    {:reply, :ok, rooms}
+  defp ref(name) do
+    {:global, {:room, name}}
   end
 end

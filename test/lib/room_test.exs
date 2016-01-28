@@ -1,53 +1,31 @@
 defmodule Stranger.RoomTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias Stranger.Room
 
+  @id "my-test-id"
+
   setup do
-    on_exit fn ->
-      room_names =
-        Room.all()
-        |> Enum.map(fn(room) ->
-          room |> Tuple.to_list() |> List.first()
-        end)
+    room = :crypto.strong_rand_bytes(32) |> Base.encode64()
+    {:ok, %{room: room}}
+  end
 
-      Enum.each(room_names, &Room.delete/1)
+  test "joining a room", %{room: room} do
+    {:ok, pid} = Room.create(room, [@id])
+    assert {:ok, ^pid} = Room.join(room, @id, self)
+
+    assert {:error, "Room does not exist"} = Room.join("bad-room", @id, self)
+    assert {:error, "ID not allowed to join room"} = Room.join(room, "bad-id", self)
+  end
+
+  test "closes room when a 'joined' stranger goes down", %{room: room} do
+    {:ok, pid} = Room.create(room, [@id])
+    ref = Process.monitor(pid)
+
+    spawn fn ->
+      Room.join(room, @id, self)
     end
-  end
 
-  test "creating and deleting a room" do
-    Room.create("random_name", "stranger1", "stranger2")
-    assert Room.all() == [
-      {"random_name", "stranger1", "stranger2"}
-    ]
-
-    Room.delete("random_name")
-    assert Room.all() == []
-  end
-
-  test "finding a room by name" do
-    Room.create("random_name", "stranger1", "stranger2")
-    assert Room.by_name("random_name") == {"random_name", "stranger1", "stranger2"}
-
-    refute Room.by_name("wrong")
-  end
-
-  test "deleting a room by stranger" do
-    Room.create("random_name", "stranger1", "stranger2")
-    Room.delete_by_stranger("stranger1")
-
-    assert Room.all() == []
-
-    Room.create("random_name", "stranger1", "stranger2")
-    Room.delete_by_stranger("stranger2")
-
-    assert Room.all() == []
-  end
-
-  test "finding by stranger" do
-    Room.create("random_name", "stranger1", "stranger2")
-
-    assert {"random_name", _, _} = Room.by_stranger("stranger1")
-    assert {"random_name", _, _} = Room.by_stranger("stranger2")
+    assert_receive {:DOWN, ^ref, :process, ^pid, :normal}
   end
 end

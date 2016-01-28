@@ -1,12 +1,19 @@
 import "phoenix_html"
 import Chat from "./chat"
 
+const chatEl = document.querySelector("[data-init='chat']")
+
 if(document.querySelector("[data-init='chat']")) {
   if(localStorage.getItem("agreed")) {
-    new Chat()
+    startChat()
   } else {
     showWelcome()
   }
+}
+
+function startChat() {
+  const chat = new Chat(chatEl, window.stranger.id)
+  chat.start()
 }
 
 function showWelcome() {
@@ -17,6 +24,6 @@ function showWelcome() {
   startButton.addEventListener("click", e => {
     el.classList.remove("welcome--show")
     localStorage.setItem("agreed", true)
-    new Chat()
+    startChat()
   })
 }
