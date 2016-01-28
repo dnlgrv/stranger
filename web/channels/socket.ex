@@ -3,6 +3,7 @@ defmodule Stranger.Socket do
 
   ## Channels
   channel "lobby", Stranger.Channel.Lobby
+  channel "notification", Stranger.Channel.Notification
   channel "room:*", Stranger.Channel.Room
 
   ## Transports

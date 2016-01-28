@@ -1,9 +1,11 @@
 import {Socket} from "phoenix"
 
 let lobby,
+    notification,
     room,
     chatInputEl,
-    messagesEl
+    messagesEl,
+    onlineEl
 
 class Chat {
   constructor(el, id) {
@@ -11,6 +13,7 @@ class Chat {
 
     chatInputEl = el.querySelector(".chat__text-field")
     messagesEl = el.querySelector(".chat__messages")
+    onlineEl = el.querySelector(".chat__stats")
   }
 
   start() {
@@ -18,6 +21,7 @@ class Chat {
     this.socket.connect()
 
     joinLobby(this.socket)
+    joinNotification(this.socket)
   }
 }
 
@@ -35,6 +39,18 @@ function joinLobby(socket) {
     joinRoom(socket, resp.name)
     lobby.leave()
     lobby = undefined
+  })
+}
+
+function joinNotification(socket) {
+  notification = socket.channel("notification", {})
+  notification.join()
+    .receive("ok", resp => {
+      updateOnline(resp.online)
+    })
+
+  notification.on("stats", resp => {
+    updateOnline(resp.online)
   })
 }
 
@@ -88,6 +104,16 @@ function strangerMessage(message, received) {
 
 function systemMessage(message) {
   newMessage(message, "message--system")
+}
+
+function updateOnline(count) {
+  let noun = "stranger"
+
+  if(count !== 1) {
+    noun += "s"
+  }
+
+  onlineEl.innerHTML = `${count} ${noun} online`
 }
 
 export default Chat
