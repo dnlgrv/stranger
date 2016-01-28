@@ -1,8 +1,10 @@
 defmodule Stranger.Channel.Notification do
   use Phoenix.Channel
 
+  alias Stranger.Notification
+
   def join("notification", _msg, socket) do
-    Stranger.Monitor.monitor(socket.channel_pid)
-    {:ok, %{online: Stranger.Monitor.count}, socket}
+    Notification.monitor(socket.channel_pid)
+    {:ok, %{online: Notification.count}, socket}
   end
 end
