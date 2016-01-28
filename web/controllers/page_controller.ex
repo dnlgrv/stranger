@@ -1,4 +1,6 @@
 defmodule Stranger.PageController do
+  @moduledoc false
+
   use Stranger.Web, :controller
 
   @id_length Application.get_env(:stranger, :id_length)

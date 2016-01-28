@@ -1,4 +1,6 @@
 defmodule Stranger.Channel.Room do
+  @moduledoc false
+
   use Phoenix.Channel
 
   alias Stranger.Room

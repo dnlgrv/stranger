@@ -1,4 +1,6 @@
 defmodule Stranger.Router do
+  @moduledoc false
+
   use Stranger.Web, :router
 
   pipeline :browser do

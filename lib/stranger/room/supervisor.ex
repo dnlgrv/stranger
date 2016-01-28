@@ -1,4 +1,6 @@
 defmodule Stranger.Room.Supervisor do
+  @moduledoc false
+
   use Supervisor
 
   def start_link do

@@ -1,4 +1,6 @@
 defmodule Stranger.LayoutView do
+  @moduledoc false
+
   use Stranger.Web, :view
 
   def ga_tracking_code do

@@ -29,6 +29,8 @@ defmodule Stranger.Mixfile do
      {:exrm, "~> 1.0.0-rc7"},
      {:html_sanitize_ex, "~> 0.1.0"},
 
+     {:ex_doc, "~> 0.11", only: :dev},
+     {:earmark, "~> 0.1", only: :dev},
      {:phoenix_live_reload, "~> 1.0", only: :dev}]
   end
 end

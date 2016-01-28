@@ -1,4 +1,6 @@
 defmodule Stranger.Channel.Lobby do
+  @moduledoc false
+
   use Phoenix.Channel
 
   alias Stranger.{Lobby, Room}

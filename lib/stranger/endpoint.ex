@@ -1,4 +1,6 @@
 defmodule Stranger.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :stranger
 
   socket "/socket", Stranger.Socket

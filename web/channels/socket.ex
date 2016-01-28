@@ -1,4 +1,6 @@
 defmodule Stranger.Socket do
+  @moduledoc false
+
   use Phoenix.Socket
 
   ## Channels

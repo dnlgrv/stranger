@@ -1,4 +1,6 @@
 defmodule Stranger.Channel.Notification do
+  @moduledoc false
+
   use Phoenix.Channel
 
   alias Stranger.Notification

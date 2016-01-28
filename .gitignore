@@ -2,6 +2,7 @@
 /_build
 /db
 /deps
+/doc
 /*.ez
 /rel
 
