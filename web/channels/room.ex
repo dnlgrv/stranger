@@ -6,6 +6,7 @@ defmodule Stranger.Channel.Room do
   def join("room:" <> name, _msg, socket) do
     case Room.join(name, socket.assigns.id, socket.channel_pid) do
       {:ok, pid} ->
+        Process.link(pid)
         {:ok, socket}
       {:error, _reason} ->
         {:error, %{}}
