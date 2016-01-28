@@ -5,6 +5,8 @@
 Chat anonymously with a randomly chosen stranger. Lives at
 [https://hellostranger.xyz][1].
 
+Documentation can be read at [http://docs.hellostranger.xyz][2].
+
 ## Setup
 
 * Install the necessary versions of Erlang/Elixir (versions are specified in
@@ -15,9 +17,7 @@ Chat anonymously with a randomly chosen stranger. Lives at
 
 ## TODO
 
-* Documentation and doc tests
 * JavaScript tests
-* Simplify the implementation, I think it's a bit complex right now
 
 ## Contributing
 
@@ -28,3 +28,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 See [LICENSE](LICENSE).
 
 [1]: https://hellostranger.xyz
+[1]: http://docs.hellostranger.xyz
