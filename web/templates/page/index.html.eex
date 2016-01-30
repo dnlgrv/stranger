@@ -2,6 +2,7 @@
   <div class="chat__stats">0 strangers online</div>
   <div class="chat__messages"></div>
   <div class="chat__input">
+    <div class="chat__typing">Stranger is typing...</div>
     <input class="chat__text-field" type="text" placeholder="Type your message and press enter to send...">
   </div>
 </div>

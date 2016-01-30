@@ -47,4 +47,10 @@ defmodule Stranger.Channel.RoomTest do
     push socket, "message", %{"body" => ""}
     refute_broadcast "message", %{body: ""}
   end
+
+  test "broadcasts a typing indicator", %{socket: socket, room: room} do
+    {:ok, _, socket} = subscribe_and_join(socket, "room:" <> room)
+    push socket, "typing", %{}
+    assert_broadcast "typing", %{sender: @id}
+  end
 end

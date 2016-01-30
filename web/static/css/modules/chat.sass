@@ -15,6 +15,7 @@
     background-color: $primary
     min-height: 5rem
     padding: 1rem
+    position: relative
 
   &__stats
     background-color: rgba(0,0,0,.15)
@@ -34,3 +35,15 @@
     padding: 1rem
     min-height: 100%
     width: 100%
+
+  &__typing
+    display: none
+    color: rgba(0,0,0,.54)
+    left: 0
+    position: absolute
+    text-align: center
+    top: -4rem
+    width: 100%
+
+    &--active
+      display: block

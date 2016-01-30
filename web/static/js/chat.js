@@ -5,7 +5,8 @@ let lobby,
     room,
     chatInputEl,
     messagesEl,
-    onlineEl
+    onlineEl,
+    typingEl
 
 class Chat {
   constructor(el, id) {
@@ -14,6 +15,7 @@ class Chat {
     chatInputEl = el.querySelector(".chat__text-field")
     messagesEl = el.querySelector(".chat__messages")
     onlineEl = el.querySelector(".chat__stats")
+    typingEl = el.querySelector(".chat__typing")
   }
 
   start() {
@@ -63,6 +65,8 @@ function joinRoom(socket, name) {
   room.join()
 
   chatInputEl.addEventListener("keypress", ev => {
+    room.push("typing", {})
+
     if(ev.keyCode === 13) {
       room.push("message", {body: chatInputEl.value})
       chatInputEl.value = ""
@@ -74,6 +78,14 @@ function joinRoom(socket, name) {
       strangerMessage(resp.body, false)
     } else {
       strangerMessage(resp.body, true)
+    }
+
+    typingEl.classList.remove("chat__typing--active")
+  })
+
+  room.on("typing", resp => {
+    if(resp.sender !== socket.params.id) {
+      strangerTyping()
     }
   })
 
@@ -102,6 +114,15 @@ function strangerMessage(message, received) {
   }
 }
 
+function strangerTyping() {
+  typingEl.classList.add("chat__typing--active")
+  hideStrangerTyping()
+}
+
+let hideStrangerTyping = _debounce(() => {
+  typingEl.classList.remove("chat__typing--active")
+}, 2000)
+
 function systemMessage(message) {
   newMessage(message, "message--system")
 }
@@ -115,5 +136,21 @@ function updateOnline(count) {
 
   onlineEl.innerHTML = `${count} ${noun} online`
 }
+
+// https://davidwalsh.name/javascript-debounce-function
+function _debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
 
 export default Chat
