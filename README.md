@@ -28,4 +28,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 See [LICENSE](LICENSE).
 
 [1]: https://hellostranger.xyz
-[1]: http://docs.hellostranger.xyz
+[2]: http://docs.hellostranger.xyz
